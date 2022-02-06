@@ -1,56 +1,3 @@
-function game() {
-    let playerScore = 0
-    let computerScore = 0
-
-    for (let i = 1; i <= 5; i++) {
-        let playerMove = window.prompt(`GAME ${i}. Your move:`)
-        let computerMove = computerMoveGenerator()
-        let youLost = playRound(playerMove,computerMove)[0] === 'L'
-        let youWon = playRound(playerMove,computerMove)[0] === 'W'
-
-        if (youLost) {
-            computerScore += 1
-        } else if (youWon) {
-            playerScore += 1
-        }
-    }
-
-    if (playerScore > computerScore) {
-        return 'Player Wins!'
-    } else if (playerScore < computerScore) {
-        return 'Computer Wins!'
-    } else if (playerScore === computerScore) {
-        return 'Tie!'
-    } else {
-        return 'Error'
-    }
-}
-
-// console.log(game())
-
-function playRound(playerSelection, computerSelection) {
-    let ps = playerSelection.toLowerCase()
-    let cs = computerSelection.toLowerCase()
-
-    if (ps === cs) {
-        return 'Tie!'
-    } else if (ps === 'rock' && cs === 'paper') {
-        return `Lose! ${cs} beats ${ps}`
-    } else if (ps === 'rock' && cs === 'scissors') {
-        return `Win! ${ps} beats ${cs}`
-    } else if (ps === 'paper' && cs === 'rock') {
-        return `Win! ${ps} beats ${cs}`
-    } else if (ps === 'paper' && cs === 'scissors') {
-        return `Lose! ${cs} beats ${ps}`
-    } else if (ps === 'scissors' && cs === 'rock') {
-        return `Lose! ${cs} beats ${ps}`
-    } else if (ps === 'scissors' && cs === 'paper') {
-        return `Win! ${ps} beats ${cs}`
-    } else {
-        return 'Something has gone wrong'
-    }
-}
-
 function computerMoveGenerator() {
     let move = getRandomInt(3)
 
@@ -65,4 +12,75 @@ function computerMoveGenerator() {
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max) + 1
+}
+
+// new requirements
+
+const rockBtn = document.querySelector('#rock')
+const paperBtn = document.querySelector('#paper')
+const scissorsBtn = document.querySelector('#scissors')
+const results = document.querySelector('#results')
+const score = document.querySelector('#score')
+
+rockBtn.addEventListener('click', function(e) {
+    playRound2('rock')
+})
+
+paperBtn.addEventListener('click', function(e) {
+    playRound2('paper')
+})
+
+scissorsBtn.addEventListener('click', function(e) {
+    playRound2('scissors')
+})
+
+let playerScore = 0
+let computerScore = 0
+
+function playRound2(playerSelection) {
+    if (playerScore === 5 || computerScore === 5) {
+        return
+    }
+
+    let ps = playerSelection.toLowerCase()
+    let cs = computerMoveGenerator().toLowerCase()
+
+    if (ps === cs) {
+        results.textContent = 'Tie!'
+    } else if (ps === 'rock' && cs === 'paper') {
+        results.textContent = `Lose! ${cs} beats ${ps}`
+    } else if (ps === 'rock' && cs === 'scissors') {
+        results.textContent = `Win! ${ps} beats ${cs}`
+    } else if (ps === 'paper' && cs === 'rock') {
+        results.textContent = `Win! ${ps} beats ${cs}`
+    } else if (ps === 'paper' && cs === 'scissors') {
+        results.textContent = `Lose! ${cs} beats ${ps}`
+    } else if (ps === 'scissors' && cs === 'rock') {
+        results.textContent = `Lose! ${cs} beats ${ps}`
+    } else if (ps === 'scissors' && cs === 'paper') {
+        results.textContent = `Win! ${ps} beats ${cs}`
+    } else {
+        results.textContent = 'Something has gone wrong'
+    }
+
+    game2()
+}
+
+function game2() {
+    let youLost = results.textContent[0] === 'L'
+    let youWon = results.textContent[0] === 'W'
+
+    if (youLost) {
+        computerScore += 1
+    } else if (youWon) {
+        playerScore += 1
+    }
+
+    if (playerScore === 5) {
+        results.textContent = 'Player reaches 5pts first'
+    } else if (computerScore === 5) {
+        results.textContent = 'Computer reaches 5pts first'
+    }
+
+    score.textContent = `Player: ${playerScore}, Computer: ${computerScore}`
 }
