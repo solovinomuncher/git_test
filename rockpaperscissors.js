@@ -1,3 +1,8 @@
+const btn = document.querySelector('#btn')
+btn.addEventListener('click', function(e) {
+    alert('i click you!')
+})
+
 function computerMoveGenerator() {
     let move = getRandomInt(3)
 
